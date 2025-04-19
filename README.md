@@ -18,7 +18,7 @@ AI Sniffing是一个专注于人工智能和科技创新的资讯平台，汇聚
 
 ## 项目结构
 
-\`\`\`
+```plaintext
 ai-sniffing/
 ├── app/                    # Next.js App Router目录
 │   ├── category/           # 分类页面
@@ -55,7 +55,7 @@ ai-sniffing/
 ├── package.json            # 项目依赖
 ├── tailwind.config.ts      # Tailwind配置
 └── tsconfig.json           # TypeScript配置
-\`\`\`
+```
 
 ## 安装和运行
 
@@ -67,46 +67,62 @@ ai-sniffing/
 ### 安装步骤
 
 1. 克隆仓库
-\`\`\`bash
+```bash
 git clone https://github.com/your-username/ai-sniffing.git
 cd ai-sniffing
-\`\`\`
+```
 
 2. 安装依赖
-\`\`\`bash
+```bash
 npm install
-# 或
+```
+ 或
+```bash
 yarn install
-# 或
+```
+或
+```bash
 pnpm install
-\`\`\`
+```
 
 3. 运行开发服务器
-\`\`\`bash
+```bash
 npm run dev
-# 或
+```
+或
+```bash
 yarn dev
-# 或
+```
+或
+```bash
 pnpm dev
-\`\`\`
+```
 
 4. 构建生产版本
-\`\`\`bash
+```bash
 npm run build
-# 或
+```
+或
+```bash
 yarn build
-# 或
+```
+或
+```bash
 pnpm build
-\`\`\`
+```
 
 5. 运行生产版本
-\`\`\`bash
+```bash
 npm start
-# 或
+```
+或
+···bash
 yarn start
-# 或
+```
+或
+```bash
 pnpm start
-\`\`\`
+```
 
 ## 主要功能和组件
 
@@ -226,11 +242,11 @@ MIT License - 详见LICENSE文件
 
 如有任何问题或建议，请通过以下方式联系我们：
 
-- 邮箱: contact@aisniffing.com
-- GitHub: [https://github.com/your-username/ai-sniffing](https://github.com/your-username/ai-sniffing)
+- 邮箱: xymlele@me.com
+- GitHub: [https://github.com/Gancuimian123/ai-sniffing](https://github.com/your-username/ai-sniffing)
 
 ## 更新日志
 
-### 2024-04-19
+### 2025-04-19
 - 优化了最新资讯区域的筛选条件布局，将分类、来源、时间范围和日期选择器整合到同一行，提升了用户体验和界面整洁度
 - 调整了选择器的宽度，使其在同一行显示时更加紧凑
