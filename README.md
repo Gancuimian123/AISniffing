@@ -66,13 +66,13 @@ ai-sniffing/
 
 ### 安装步骤
 
-1. 克隆仓库
+#### 克隆仓库
 ```bash
 git clone https://github.com/your-username/ai-sniffing.git
 cd ai-sniffing
 ```
 
-2. 安装依赖
+#### 安装依赖
 ```bash
 npm install
 ```
@@ -85,7 +85,7 @@ yarn install
 pnpm install
 ```
 
-3. 运行开发服务器
+#### 运行开发服务器
 ```bash
 npm run dev
 ```
@@ -98,7 +98,7 @@ yarn dev
 pnpm dev
 ```
 
-4. 构建生产版本
+#### 构建生产版本
 ```bash
 npm run build
 ```
@@ -111,12 +111,12 @@ yarn build
 pnpm build
 ```
 
-5. 运行生产版本
+#### 运行生产版本
 ```bash
 npm start
 ```
 或
-···bash
+```bash
 yarn start
 ```
 或
