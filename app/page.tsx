@@ -30,7 +30,9 @@ import { mockNews, mockTrends } from "@/lib/mock-data"
 import { companyColors } from "@/lib/model-leaderboard-data"
 
 export default function Home() {
-  // 模拟热门资讯数据
+  // ===== 模拟数据 =====
+
+  // 模拟Hacker News热门资讯数据
   const hackernewsData = [
     { rank: 1, title: "A New ASN.1 API for Python", points: 29, url: "#" },
     { rank: 2, title: "Defold: cross-platform game engine", points: 201, url: "#" },
@@ -39,6 +41,7 @@ export default function Home() {
     { rank: 5, title: "Gemini 2.5 Flash", points: 870, url: "#" },
   ]
 
+  // 模拟Product Hunt热门资讯数据
   const producthuntData = [
     { rank: 1, title: "Omakase.ai Voice", points: 336, url: "#" },
     { rank: 2, title: "Gemini 2.5 Flash", points: 219, url: "#" },
@@ -47,6 +50,7 @@ export default function Home() {
     { rank: 5, title: "Shotup AI", points: 153, url: "#" },
   ]
 
+  // 模拟GitHub热门资讯数据
   const githubData = [
     { rank: 1, title: "Anduin2017 / HowToCook", stars: 75771, url: "#" },
     { rank: 2, title: "jlowin / fastmcp", stars: 5580, url: "#" },
@@ -55,14 +59,22 @@ export default function Home() {
     { rank: 5, title: "linera-io / linera-protocol", stars: 22880, url: "#" },
   ]
 
-  // 修复类型定义和初始化
+  // ===== 状态管理 =====
+
+  // 用于动画效果的引用数组
   const revealRefs = useRef<Array<HTMLDivElement | null>>([])
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedSource, setSelectedSource] = useState("all")
-  const [selectedTimeframe, setSelectedTimeframe] = useState("all")
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
-  const [showDateRangePicker, setShowDateRangePicker] = useState(false)
-  const [commentText, setCommentText] = useState("")
+
+  // 筛选状态
+  const [selectedCategory, setSelectedCategory] = useState("all") // 选中的分类
+  const [selectedSource, setSelectedSource] = useState("all") // 选中的来源
+  const [selectedTimeframe, setSelectedTimeframe] = useState("all") // 选中的时间范围
+
+  // 日期范围选择器状态
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined) // 选中的日期范围
+  const [showDateRangePicker, setShowDateRangePicker] = useState(false) // 是否显示日期选择器
+
+  // 评论状态
+  const [commentText, setCommentText] = useState("") // 评论输入文本
 
   // 模拟评论数据
   const [comments, setComments] = useState([
@@ -92,7 +104,12 @@ export default function Home() {
     },
   ])
 
-  // 提交评论
+  // ===== 功能函数 =====
+
+  /**
+   * 提交评论函数
+   * 将用户输入的评论添加到评论列表中
+   */
   const submitComment = () => {
     if (commentText.trim() === "") return
 
@@ -109,6 +126,10 @@ export default function Home() {
     setCommentText("")
   }
 
+  /**
+   * 设置动画效果
+   * 使用Intersection Observer API检测元素是否进入视口，并添加动画类
+   */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -128,6 +149,7 @@ export default function Home() {
       })
     }
 
+    // 清理函数
     return () => {
       if (revealRefs.current) {
         revealRefs.current.forEach((ref) => {
@@ -137,7 +159,11 @@ export default function Home() {
     }
   }, [])
 
-  // 修复addToRefs函数，确保安全检查
+  /**
+   * 添加元素到动画引用数组
+   * @param el - DOM元素
+   * @param index - 数组索引
+   */
   const addToRefs = (el: HTMLDivElement | null, index: number) => {
     if (!revealRefs.current) {
       revealRefs.current = []
@@ -148,7 +174,11 @@ export default function Home() {
     }
   }
 
-  // 将模拟新闻数据的日期字符串转换为实际日期对象
+  /**
+   * 将日期字符串转换为Date对象
+   * @param dateString - 日期字符串，如"2小时前"、"昨天"、"3天前"
+   * @returns Date对象
+   */
   const getDateFromString = (dateString: string): Date => {
     const now = new Date()
 
@@ -174,7 +204,11 @@ export default function Home() {
     }
   }
 
-  // 时间筛选辅助函数
+  /**
+   * 检查日期是否在选定的时间范围内
+   * @param dateString - 日期字符串
+   * @returns 是否在时间范围内
+   */
   const isWithinTimeframe = (dateString: string): boolean => {
     // 如果选择了自定义日期范围，优先使用它
     if (dateRange?.from) {
@@ -215,7 +249,10 @@ export default function Home() {
     return false
   }
 
-  // 处理时间范围选择变化
+  /**
+   * 处理时间范围选择变化
+   * @param value - 选择的时间范围值
+   */
   const handleTimeframeChange = (value: string) => {
     setSelectedTimeframe(value)
     if (value === "custom") {
@@ -225,12 +262,17 @@ export default function Home() {
     }
   }
 
-  // 处理日期范围变化
+  /**
+   * 处理日期范围变化
+   * @param range - 选择的日期范围
+   */
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setDateRange(range)
   }
 
-  // 重置所有筛选条件
+  /**
+   * 重置所有筛选条件
+   */
   const resetFilters = () => {
     setSelectedCategory("all")
     setSelectedSource("all")
@@ -239,27 +281,34 @@ export default function Home() {
     setShowDateRangePicker(false)
   }
 
-  // 筛选新闻
+  /**
+   * 根据筛选条件过滤新闻
+   */
   const filteredNews = mockNews.filter((news) => {
+    // 分类匹配
     const categoryMatch =
       selectedCategory === "all" ||
       (selectedCategory === "ai" && news.category.includes("AI")) ||
       (selectedCategory === "tech" && !news.category.includes("AI")) ||
       (selectedCategory === "dev" && news.category.includes("编程"))
 
+    // 来源匹配
     const sourceMatch = selectedSource === "all" || news.source === selectedSource
 
+    // 时间匹配
     const timeMatch = isWithinTimeframe(news.date)
 
     return categoryMatch && sourceMatch && timeMatch
   })
 
-  // 切换日期选择器显示
+  /**
+   * 切换日期选择器显示
+   */
   const toggleDateRangePicker = () => {
     setShowDateRangePicker(!showDateRangePicker)
   }
 
-  // 模型数据
+  // 模型排行榜数据
   const modelData = [
     { name: "Claude 3 Opus", company: "Anthropic", score: 91.4, date: "2024-03-15" },
     { name: "GPT-4o", company: "OpenAI", score: 90.8, date: "2024-04-10" },
@@ -270,9 +319,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 pb-16">
-      {/* Hero Section */}
+      {/* Hero Section - 网站顶部的主要展示区域 */}
       <section className="container px-4 pt-10 md:pt-16 lg:pt-24">
         <div className="flex flex-col gap-8 md:gap-12">
+          {/* 标题和描述 */}
           <div
             ref={(el) => addToRefs(el, 0)}
             className="reveal-animation flex flex-col gap-4 max-w-4xl mx-auto text-center"
@@ -290,6 +340,7 @@ export default function Home() {
             </p>
           </div>
 
+          {/* 趋势卡片网格 */}
           <div
             ref={(el) => addToRefs(el, 1)}
             className="reveal-animation grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
@@ -312,6 +363,7 @@ export default function Home() {
             ))}
           </div>
 
+          {/* 操作按钮 */}
           <div ref={(el) => addToRefs(el, 2)} className="reveal-animation flex justify-center">
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="gap-2">
@@ -329,7 +381,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Model Leaderboard Section - 移到最新资讯上面 */}
+      {/* Model Leaderboard Section - 模型排行榜区域 */}
       <section ref={(el) => addToRefs(el, 3)} className="reveal-animation container px-4">
         <div className="flex flex-col gap-8">
           <div>
@@ -337,9 +389,11 @@ export default function Home() {
             <p className="text-muted-foreground">最新大语言模型性能评测与排名</p>
           </div>
 
+          {/* 模型排行榜表格 */}
           <Card className="overflow-hidden">
             <CardContent className="p-0">
               <div className="p-6">
+                {/* 表头 */}
                 <div className="grid grid-cols-12 bg-muted/50 p-4 text-sm font-medium rounded-md mb-2">
                   <div className="col-span-1 flex items-center justify-center">排名</div>
                   <div className="col-span-5 md:col-span-4">模型</div>
@@ -347,6 +401,7 @@ export default function Home() {
                   <div className="col-span-3 md:col-span-2 text-right">得分</div>
                   <div className="hidden md:block md:col-span-2 text-right">更新日期</div>
                 </div>
+                {/* 表格内容 */}
                 <div className="divide-y">
                   {modelData.map((model, index) => (
                     <div key={index} className="grid grid-cols-12 p-4 text-sm items-center">
@@ -386,7 +441,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Popular News Section */}
+      {/* Popular News Section - 热门资讯排行区域 */}
       <section ref={(el) => addToRefs(el, 6)} className="reveal-animation container px-4">
         <div className="flex flex-col gap-8">
           <div>
@@ -394,8 +449,9 @@ export default function Home() {
             <p className="text-muted-foreground">各大科技媒体平台的热门内容实时榜单</p>
           </div>
 
+          {/* 热门资讯卡片网格 - 分别展示各平台热门内容 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Hacker News */}
+            {/* Hacker News 热门内容 */}
             <Card className="overflow-hidden">
               <CardHeader className="pb-0">
                 <div className="flex items-center gap-2">
@@ -433,7 +489,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* Product Hunt */}
+            {/* Product Hunt 热门内容 */}
             <Card className="overflow-hidden">
               <CardHeader className="pb-0">
                 <div className="flex items-center gap-2">
@@ -472,7 +528,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* GitHub */}
+            {/* GitHub 热门内容 */}
             <Card className="overflow-hidden">
               <CardHeader className="pb-0">
                 <div className="flex items-center gap-2">
@@ -527,21 +583,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Latest News Section */}
+      {/* Latest News Section - 最新资讯区域 */}
       <section ref={(el) => addToRefs(el, 4)} className="reveal-animation container px-4">
         <div className="flex flex-col gap-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold">最新资讯</h2>
-              <p className="text-muted-foreground">探索AI与科技领域的最新动态</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-              <Tabs
-                defaultValue="all"
-                value={selectedCategory}
-                onValueChange={setSelectedCategory}
-                className="w-full md:w-auto"
-              >
+          {/* 标题和分类选项卡 */}
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold">最新资讯</h2>
+            <p className="text-muted-foreground mb-6">探索AI与科技领域的最新动态</p>
+          </div>
+
+          {/* 筛选选项 */}
+          <div className="flex flex-col lg:flex-row gap-4 items-center flex-wrap">
+            {/* 分类选项卡 */}
+            <div className="flex items-center gap-2 mr-2">
+              <Tabs defaultValue="all" value={selectedCategory} onValueChange={setSelectedCategory} className="w-auto">
                 <TabsList className="grid grid-cols-4 md:flex md:w-auto">
                   <TabsTrigger value="all">全部</TabsTrigger>
                   <TabsTrigger value="ai">AI</TabsTrigger>
@@ -550,13 +605,12 @@ export default function Home() {
                 </TabsList>
               </Tabs>
             </div>
-          </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center flex-wrap">
+            {/* 来源筛选 */}
             <div className="flex items-center gap-2">
               <Filter className="h-4 w-4 text-muted-foreground" />
               <Select value={selectedSource} onValueChange={setSelectedSource}>
-                <SelectTrigger className="w-[150px]">
+                <SelectTrigger className="w-[120px]">
                   <SelectValue placeholder="选择来源" />
                 </SelectTrigger>
                 <SelectContent>
@@ -569,11 +623,12 @@ export default function Home() {
               </Select>
             </div>
 
+            {/* 时间范围筛选 */}
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-muted-foreground" />
               <Select value={selectedTimeframe} onValueChange={handleTimeframeChange}>
-                <SelectTrigger className="w-[150px]">
-                  <SelectValue placeholder="选择时间范围" />
+                <SelectTrigger className="w-[120px]">
+                  <SelectValue placeholder="选择时间" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">全部时间</SelectItem>
@@ -581,16 +636,18 @@ export default function Home() {
                   <SelectItem value="yesterday">昨天</SelectItem>
                   <SelectItem value="week">本周</SelectItem>
                   <SelectItem value="month">本月</SelectItem>
-                  <SelectItem value="custom">自定义日期范围</SelectItem>
+                  <SelectItem value="custom">自定义</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
+            {/* 日期范围选择器按钮 */}
             <Button variant="outline" className="flex items-center gap-2" onClick={toggleDateRangePicker}>
               <Calendar className="h-4 w-4" />
-              选择日期范围
+              日期范围
             </Button>
 
+            {/* 重置筛选按钮 - 仅在有筛选条件时显示 */}
             {(selectedCategory !== "all" || selectedSource !== "all" || selectedTimeframe !== "all" || dateRange) && (
               <Button variant="outline" size="sm" onClick={resetFilters} className="ml-auto">
                 重置筛选
@@ -598,6 +655,7 @@ export default function Home() {
             )}
           </div>
 
+          {/* 日期范围选择器弹出框 */}
           {showDateRangePicker && (
             <div className="relative">
               <div className="absolute z-10 mt-2">
@@ -610,6 +668,7 @@ export default function Home() {
             </div>
           )}
 
+          {/* 新闻卡片网格 */}
           <div className="grid grid-cols-1 gap-6">
             {filteredNews.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -618,6 +677,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
+              // 无结果提示
               <div className="flex flex-col items-center justify-center p-12 border rounded-lg bg-muted/20">
                 <p className="text-lg font-medium mb-2">没有找到符合条件的资讯</p>
                 <p className="text-muted-foreground text-center mb-4">尝试调整筛选条件以查看更多内容</p>
@@ -627,6 +687,7 @@ export default function Home() {
               </div>
             )}
 
+            {/* 查看更多按钮 */}
             {filteredNews.length > 0 && (
               <div className="flex justify-center mt-8">
                 <Button variant="outline" size="lg" className="gap-2">
@@ -639,10 +700,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Comments Section - 替换原来的Newsletter Section */}
+      {/* Comments Section - 评论区域 */}
       <section ref={(el) => addToRefs(el, 5)} className="reveal-animation comments-section py-16">
         <div className="container px-4">
           <div className="max-w-3xl mx-auto flex flex-col gap-8">
+            {/* 标题 */}
             <div className="text-center">
               <Badge variant="outline" className="w-fit mx-auto px-4 py-1">
                 <MessageSquare className="mr-1 h-3 w-3 text-primary" />
@@ -746,6 +808,7 @@ export default function Home() {
               ))}
             </div>
 
+            {/* 查看更多评论按钮 */}
             {comments.length > 3 && (
               <div className="flex justify-center">
                 <Button variant="outline" className="border-primary/30 hover:border-primary hover:bg-primary/10">
