@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 162 98% 50%;
+    --primary-foreground: 355 100% 97%;
+    --secondary: 300 98% 50%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 162 98% 50%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 162 98% 50%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 300 98% 50%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 162 98% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.grid-background {
+  background-image: linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .grid-background {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.highlight-green {
+  background: linear-gradient(90deg, rgba(3, 252, 144, 0.2) 0%, rgba(3, 252, 144, 0) 100%);
+}
+
+.highlight-pink {
+  background: linear-gradient(90deg, rgba(252, 3, 248, 0.2) 0%, rgba(252, 3, 248, 0) 100%);
+}
+
+.reveal-animation {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal-animation.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.number-highlight {
+  @apply text-primary font-bold;
+  text-shadow: 0 0 10px rgba(3, 252, 144, 0.5);
+}
+
+.secondary-highlight {
+  @apply text-secondary font-bold;
+  text-shadow: 0 0 10px rgba(252, 3, 248, 0.5);
+}
+
+.news-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dark .news-card:hover {
+  box-shadow: 0 10px 25px rgba(3, 252, 144, 0.1);
+}
+
+/* 添加react-day-picker所需的样式 */
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: hsl(var(--primary));
+  --rdp-background-color: hsl(var(--primary) / 0.2);
+  --rdp-accent-color-dark: hsl(var(--primary));
+  --rdp-background-color-dark: hsl(var(--primary) / 0.2);
+  --rdp-outline: 2px solid var(--rdp-accent-color);
+  --rdp-outline-selected: 2px solid var(--rdp-accent-color);
+  margin: 0;
+}
+
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  background-color: var(--rdp-accent-color);
+  color: var(--rdp-background-color);
+}
+
+.rdp-day_range_start,
+.rdp-day_range_end {
+  border-radius: 100%;
+}
+
+.rdp-day_range_middle {
+  background-color: var(--rdp-background-color);
+  color: var(--rdp-accent-color);
+}
+
+/* 毛玻璃效果 */
+.frosted-glass {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .frosted-glass {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 评论卡片荧光效果 */
+.comment-card {
+  transition: all 0.3s ease;
+}
+
+.comment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(3, 252, 144, 0.15);
+  border-color: rgba(3, 252, 144, 0.3);
+}
+
+.dark .comment-card:hover {
+  box-shadow: 0 8px 20px rgba(3, 252, 144, 0.2);
+}
+
+/* 评论输入框荧光效果 */
+.comment-input:focus-within {
+  border-color: rgba(3, 252, 144, 0.5);
+  box-shadow: 0 0 15px rgba(3, 252, 144, 0.2);
+}
+
+/* 评论区背景 */
+.comments-section {
+  background-image: radial-gradient(circle at 50% 0%, rgba(3, 252, 144, 0.1), transparent 70%);
+}
+
+.dark .comments-section {
+  background-image: radial-gradient(circle at 50% 0%, rgba(3, 252, 144, 0.05), transparent 70%);
+}
